@@ -1,6 +1,10 @@
 package com.liebert.gyrolist;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.util.Pair;
 import android.view.WindowManager;
 
@@ -119,5 +123,20 @@ public class Utils {
         WindowManager windowMgr =
                 (WindowManager)context.getSystemService(WINDOW_SERVICE);
         return windowMgr.getDefaultDisplay().getRotation();
+    }
+
+    static Bitmap getAppIconBitmap(Drawable icon) {
+        Bitmap APKicon;
+        if(icon instanceof BitmapDrawable) {
+            APKicon  = ((BitmapDrawable)icon).getBitmap();
+        }
+        else {
+            Bitmap bitmap = Bitmap.createBitmap(icon.getIntrinsicWidth(),icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            icon.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            icon.draw(canvas);
+            APKicon = bitmap;
+        }
+        return APKicon;
     }
 }

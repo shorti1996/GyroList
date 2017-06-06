@@ -2,7 +2,9 @@ package com.liebert.gyrolist;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -130,8 +132,10 @@ public class MainActivity extends AppCompatActivity {
         public void onBindViewHolder(ItemViewHolder holder, int position) {
 //            holder.itemSiv;
             ApplicationInfo applicationInfo = appList.get(position);
-            BitmapDrawable icon = (BitmapDrawable)applicationInfo.loadIcon(getPackageManager());
-            holder.itemSiv.setImageBitmap(icon.getBitmap());
+            Drawable icon = applicationInfo.loadIcon(getPackageManager());
+//            Bitmap iconBitmap = Utils.getAppIconBitmap(icon);
+//            holder.itemSiv.setImageBitmap(icon.getBitmap());
+            holder.itemSiv.setImageDrawable(icon);
             holder.titleTv.setText(applicationInfo.loadLabel(getPackageManager()));
         }
 
