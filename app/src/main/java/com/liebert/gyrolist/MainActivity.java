@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+
+    private float[] localUp;
+    private boolean calibrate = false;
 
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -51,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mAccelerometerEventListener = new MyAccelerometerListener(this);
 
+        localUp = new float[]{0,-1,0};
+
         ButterKnife.bind(this);
 
         setupRv();
@@ -67,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
     // maybe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_calibrate:
+                calibrate = true;
+                return true;
+            default:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -80,12 +93,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                if (calibrate) {
+                    localUp[1] = Utils.normalizeVector(event.values)[1];
+                    calibrate = false;
+                }
+
                 float[] scr = Utils.canonicalOrientationToScreenOrientation(event.values, mContext);
-//                float[] wrld = Utils.canonicalToWorld(Utils.getDisplayOrientation(mContext), event.values);
-                android.support.v4.util.Pair p = Utils.computeAxisAngle(new float[]{0,-1,0}, scr);
+                float[] wrld = Utils.canonicalToWorld(Utils.getDisplayOrientation(mContext), event.values);
+                android.support.v4.util.Pair p = Utils.computeAxisAngle(localUp, scr);
                 float angle = (float) Math.toDegrees((float) p.second);
-                float dir = ((float[]) p.first)[2];
-//                Log.d("Aaa:", "Angle: " + Math.toDegrees(angle) * dir);
+                float dir = Math.signum(((float[]) p.first)[2]);
+                Log.d("Aaa:", "Angle: " + angle * dir);
 
                 if (angle <= 20) {
                     return;

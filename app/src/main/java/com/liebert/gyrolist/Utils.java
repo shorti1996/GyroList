@@ -110,7 +110,6 @@ public class Utils {
         return toRet;
     }
 
-
     static Pair computeAxisAngle(float[] localUp, float[] worldVec) {
         float[] nTarget = normalizeVector(worldVec);
         float[] rotAxis = crossVectors(localUp, nTarget);

@@ -2,14 +2,23 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/main_menu_nothing" />
+    <item
+        android:id="@+id/item_calibrate"
+        android:title="@string/main_menu_calibrate" />
+    <item
+        android:id="@+id/item_nothing"
+        android:title="@string/main_menu_nothing" />
 
 
     <item android:title="@string/main_menu_group">
         <menu>
             <group>
-                <item android:title="@string/main_menu_group_heagoodboy"/>
-                <item android:title="@string/main_menu_group_dindu"/>
+                <item
+                    android:id="@+id/item_heagoodboy"
+                    android:title="@string/main_menu_group_heagoodboy" />
+                <item
+                    android:id="@+id/item_dindu"
+                    android:title="@string/main_menu_group_dindu"/>
             </group>
         </menu>
     </item>

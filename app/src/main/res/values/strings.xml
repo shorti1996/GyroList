@@ -2,6 +2,7 @@
     <string name="app_name">GyroList</string>
 
     <!--MAIN MENU ITEMS-->
+    <string name="main_menu_calibrate">Calibrate</string>
     <string name="main_menu_nothing">Do nothing</string>
     <string name="main_menu_group">More nothing</string>
     <string name="main_menu_group_heagoodboy">He a good boy</string>
